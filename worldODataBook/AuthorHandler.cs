@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace worldODataBook
 {
+
+    // Třída pro manipulaci s tabulkou autorů.
     internal class AuthorHandler
     {
         AuthorDAO authorDAO = new AuthorDAO();
         Program program = new Program();
         public void Execute()
         {
-            //výpis možností
+            // Výpis možností pro manipulaci s databází autorů
             Console.WriteLine("Vyberte operaci pro tabulku Author:");  
             Console.WriteLine("1. Vložit do databáze");
             Console.WriteLine("2. Smazat z databáze");
@@ -20,18 +22,19 @@ namespace worldODataBook
             Console.WriteLine("4. Výpis databáze");
             Console.WriteLine("5. Vložit do databáze ze souboru");
 
-            int operation = int.Parse(Console.ReadLine());
+            int operation = int.Parse(Console.ReadLine());// Čtení volby
 
             int id;
             string name;
             string surname;
             string birth_date;
+            string CSVName;
 
-            switch (operation)// další switch který podle vooby uživatel zavolá adekvátní fce z DAO
+            switch (operation)// další switch který podle vooby uživatel zavolá fce z DAO
             {
                 
 
-                case 1:
+                case 1: // Vložení nového záznamu do databáze
                     Console.Write("Jmeno autora: ");
                     name = Console.ReadLine();
                     Console.Write("Příjmení autora: ");
@@ -42,13 +45,13 @@ namespace worldODataBook
                     authorDAO.Save(authorSave);
 
                     break;
-                case 2:
+                case 2:// Smazání záznamu z databáze
                     Console.Write("Zadajte id autora: ");
                     id = Convert.ToInt32(Console.ReadLine());
                     authorDAO.Delete(id);
 
                     break;
-                case 3:
+                case 3:// Úprava záznamu v databázi
                     Console.Write("Zadejte id autora: ");
                     id = Convert.ToInt32(Console.ReadLine());
                     Console.Write("Jmeno autora: ");
@@ -61,7 +64,7 @@ namespace worldODataBook
                     authorDAO.Save(authorUpdate);
 
                     break;
-                case 4:
+                case 4:// Výpis všech záznamů v databázi
                     Console.WriteLine("List autorů");
                     foreach (Author i in authorDAO.GetAll())
                     {
@@ -69,9 +72,9 @@ namespace worldODataBook
                     }
 
                     break;
-                case 5:
+                case 5:// Import záznamů ze souboru do databáze
 
-
+                    authorDAO.Import();
 
                     break;
                 default:

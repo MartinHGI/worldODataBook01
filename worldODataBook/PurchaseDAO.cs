@@ -1,31 +1,32 @@
-﻿using System;
+﻿using DAOTretak;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DAOTretak;
+using System.Xml;
 
 namespace worldODataBook
 {
     internal class PurchaseDAO
     {
-        public void Delete(int iid)
+        public void Delete(int iid)// Metoda pro smazání záznamu 
         {
             SqlConnection conn = DatabaseSingleton.GetInstance();
 
-            using (SqlCommand command = new SqlCommand("DELETE FROM Osoby WHERE id = @id", conn))
+            using (SqlCommand command = new SqlCommand("DELETE FROM Purchase WHERE id = @id", conn))
             {
                 command.Parameters.Add(new SqlParameter("@id", iid));
                 command.ExecuteNonQuery();
             }
         }
 
-        public IEnumerable<Purchase> GetAll()
+        public IEnumerable<Purchase> GetAll()// Metoda pro získání/ výpis všech záznamů
         {
             SqlConnection conn = DatabaseSingleton.GetInstance();
 
-            using (SqlCommand command = new SqlCommand("SELECT * FROM Osoby", conn))
+            using (SqlCommand command = new SqlCommand("SELECT * FROM Purchase", conn))
             {
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
@@ -53,7 +54,7 @@ namespace worldODataBook
             Purchase? purchase = null;
             SqlConnection connection = DatabaseSingleton.GetInstance();
             // 1. declare command object with parameter
-            using (SqlCommand command = new SqlCommand("SELECT * FROM Osoby WHERE id = @Id", connection))
+            using (SqlCommand command = new SqlCommand("SELECT * FROM Purchase WHERE id = @Id", connection))
             {
                 // 2. define parameters used in command 
                 SqlParameter param = new SqlParameter();
@@ -79,7 +80,7 @@ namespace worldODataBook
             return purchase;
 
         }
-
+        // Metoda pro uložení nového nakupu do databáze nebo aktualizaci
         public void Save(Purchase purchase)
         {
             SqlConnection conn = DatabaseSingleton.GetInstance();
@@ -101,7 +102,7 @@ namespace worldODataBook
             }
             else
             {
-                using (command = new SqlCommand("UPDATE Osoby SET book_id= @book_id, customer_id = @customer_id, purchase_date = @purchase_date " +
+                using (command = new SqlCommand("UPDATE Purchase SET book_id= @book_id, customer_id = @customer_id, purchase_date = @purchase_date " +
                     "WHERE id = @id", conn))
                 {
                     command.Parameters.Add(new SqlParameter("@id", purchase.ID));
@@ -120,6 +121,22 @@ namespace worldODataBook
             using (SqlCommand command = new SqlCommand("DELETE FROM Purchase", conn))
             {
                 command.ExecuteNonQuery();
+            }
+        }
+
+        public void Import()// Metoda pro import záznamů autorů z XML
+        {
+            XmlDocument x = new XmlDocument();
+            x.Load("data.xml");
+            XmlNodeList PurchaseNodes = x.SelectNodes("/data/Purchase");
+            foreach (XmlNode an in PurchaseNodes)
+            {
+                int book_id = int.Parse(an.SelectSingleNode("book_id").InnerText);
+                int customer_id = int.Parse(an.SelectSingleNode("customer_id").InnerText);
+                string purchase_date = an.SelectSingleNode("purchase_date").InnerText;
+
+                Purchase a = new Purchase(book_id, customer_id, purchase_date);
+                Save(a);
             }
         }
     }

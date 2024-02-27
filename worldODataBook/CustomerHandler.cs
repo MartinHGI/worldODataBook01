@@ -28,7 +28,7 @@ namespace worldODataBook
 
             switch (operation)// další switch který podle vooby uživatel zavolá adekvátní fce z DAO
             {
-                case 1:
+                case 1:// Vložení nového záznamu do databáze
                     Console.Write("Jmeno zákazníka: ");
                     name = Console.ReadLine();
                     Console.Write("Příjmení zákazníka: ");
@@ -39,13 +39,13 @@ namespace worldODataBook
 
                     customerDAO.Save(customerSave);
                     break;
-                case 2:
+                case 2:// Smazání záznamu z databáze
                     Console.Write("Zadajte id zákazníka: ");
                     id = Convert.ToInt32(Console.ReadLine());
 
                     customerDAO.Delete(id);
                     break;
-                case 3:
+                case 3:// Úprava záznamu v databázi
                     Console.Write("Zadejte id zákazníka: ");
                     id = Convert.ToInt32(Console.ReadLine());
                     Console.Write("Jmeno upraveného zákazníka: ");
@@ -58,7 +58,7 @@ namespace worldODataBook
 
                     customerDAO.Save(customerUpdate);
                     break;
-                case 4:
+                case 4:// Výpis všech záznamů v databázi
                     Console.WriteLine("List Zákazníků");
                     foreach (Customer i in customerDAO.GetAll())
                     {
@@ -66,9 +66,9 @@ namespace worldODataBook
                     }
 
                     break;
-                case 5:
+                case 5:// Import záznamů ze souboru do databáze
 
-
+                    customerDAO.Import();
 
                     break;
                 default:

@@ -24,22 +24,22 @@ namespace worldODataBook
             int id;
             string name;
 
-            switch (operation)// další switch který podle vooby uživatel zavolá adekvátní fce z DAO
+            switch (operation)// další switch který podle vooby uživatel zavolá fce z DAO
             {
-                case 1:
+                case 1:// Vložení nového záznamu do databáze
                     Console.Write("Jméno žánru: ");
                     name = Console.ReadLine();
                     Genre genreS = new Genre(name);
 
                     genreDAO.Save(genreS);
                     break;
-                case 2:
+                case 2:// Smazání záznamu z databáze
                     Console.Write("Zadajte id žánru: ");
                     id = Convert.ToInt32(Console.ReadLine());
 
                     genreDAO.Delete(id);
                     break;
-                case 3:
+                case 3:// Úprava záznamu v databázi
                     Console.Write("Zadejte id žánru který chcete upravit: ");
                     id = Convert.ToInt32(Console.ReadLine());
                     Console.Write("Jméno žánru: ");
@@ -48,7 +48,7 @@ namespace worldODataBook
 
                     genreDAO.Save(genreU);
                     break;
-                case 4:
+                case 4:// Výpis všech záznamů v databázi
                     Console.WriteLine("List žánrů");
                     foreach (Genre i in genreDAO.GetAll())
                     {
@@ -56,8 +56,9 @@ namespace worldODataBook
                     }
 
                     break;
-                case 5:
+                case 5:// Import záznamů ze souboru do databáze
 
+                    genreDAO.Import();
 
 
                     break;

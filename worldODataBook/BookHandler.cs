@@ -26,10 +26,11 @@ namespace worldODataBook
             int author_id;
             string name;
             string release_date;
+            string available;
 
             switch (operation)// další switch který podle vooby uživatel zavolá adekvátní fce z DAO
             {
-                case 1:
+                case 1:// Vložení nového záznamu do databáze
                     Console.Write("Id žánru: ");
                     genre_id = Convert.ToInt32(Console.ReadLine());
                     Console.Write("Id autora: ");
@@ -38,17 +39,27 @@ namespace worldODataBook
                     name = Console.ReadLine();
                     Console.Write("Den vydání: ");
                     release_date = Console.ReadLine();
-                    Book bookSave = new Book(genre_id, author_id, name, release_date);
+                    Console.Write(" dostupnost (a/n): ");
+                    available = Console.ReadLine();
+                    if (available == "a")
+                    {
+                        available = "1";
+                    }
+                    else if (available == "n")
+                    {
+                        available = "0";
+                    }
+                    Book bookSave = new Book(genre_id, author_id, name, release_date, available);
 
                     bookDAO.Save(bookSave);
                     break;
-                case 2:
+                case 2:// Smazání záznamu z databáze
                     Console.Write("Zadajte id knihy kterou chcete smazat: ");
                     id = Convert.ToInt32(Console.ReadLine());
 
                     bookDAO.Delete(id);
                     break;
-                case 3:
+                case 3:// Úprava záznamu v databázi
                     Console.Write("Zadejte id knihy kterou chcete upravit: ");
                     id = Convert.ToInt32(Console.ReadLine());
                     Console.Write("Id žánru: ");
@@ -59,11 +70,21 @@ namespace worldODataBook
                     name = Console.ReadLine();
                     Console.Write("Den vydání: ");
                     release_date = Console.ReadLine();
-                    Book bookUpdate = new Book(id, genre_id, author_id, name, release_date);
+                    Console.Write(" dostupnost (a/n): ");
+                    available = Console.ReadLine();
+                    if (available == "a")
+                    {
+                        available = "1";
+                    }
+                    else if (available == "n")
+                    {
+                        available = "0";
+                    }
+                    Book bookUpdate = new Book(id, genre_id, author_id, name, release_date, available);
 
                     bookDAO.Save(bookUpdate);
                     break;
-                case 4:
+                case 4:// Výpis všech záznamů v databázi
                     Console.WriteLine("List knih");
                     foreach (Book i in bookDAO.GetAll())
                     {
@@ -71,8 +92,9 @@ namespace worldODataBook
                     }
 
                     break;
-                case 5:
+                case 5:// Import záznamů ze souboru do databáze
 
+                    bookDAO.Import();
 
 
                     break;

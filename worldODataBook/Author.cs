@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.FileIO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace worldODataBook
 {
@@ -38,5 +40,13 @@ namespace worldODataBook
         {
             return $"{ID}. {name} {surname} {birth_date}";
         }
+
+
+
+
+        
+
+   
+
     }
 }

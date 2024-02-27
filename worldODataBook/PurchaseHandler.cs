@@ -30,8 +30,8 @@ namespace worldODataBook
 
             switch (operation)// další switch který podle vooby uživatel zavolá adekvátní fce z DAO
             {
-                case 1:
-                    
+                case 1:// Vložení nového záznamu do databáze
+
                     Console.WriteLine("Id zákazníka: ");
                     customer_id = Convert.ToInt32(Console.ReadLine());
                     Console.Write("Id knihy: ");
@@ -42,14 +42,14 @@ namespace worldODataBook
 
                     purchaseDAO.Save(purchaseSave);
                     break;
-                case 2:
+                case 2:// Smazání záznamu z databáze
                     Console.Write("Zadajte id obědnávky: ");
                     id = Convert.ToInt32(Console.ReadLine());
 
 
                     purchaseDAO.Delete(id);
                     break;
-                case 3:
+                case 3:// Úprava záznamu v databázi
                     Console.Write("Zadejte id obědnávky: ");
                     id = Convert.ToInt32(Console.ReadLine());
                     Console.Write("Id zákazníka: ");
@@ -62,7 +62,7 @@ namespace worldODataBook
 
                     purchaseDAO.Save(purchaseUpdate);
                     break;
-                case 4:
+                case 4:// Výpis všech záznamů v databázi
                     Console.WriteLine("List košíků");
                     foreach (Purchase i in purchaseDAO.GetAll())
                     {
@@ -71,7 +71,9 @@ namespace worldODataBook
 
 
                     break;
-                case 5:
+                case 5:// Import záznamů ze souboru do databáze
+
+                    purchaseDAO.Import();
 
 
 
